@@ -1,3 +1,31 @@
+const words = [
+    "JAVA",
+    "COMPUTER",
+    "PROGRAM",
+    "CODING",
+    "HANGMAN",
+    "HARDDISK",
+    "KEYBOARD",
+    "MONITOR",
+    "MOUSE",
+    "PRINTER",
+    "LAPTOP",
+    "INTERNET",
+    "SOFTWARE",
+    "DATABASE",
+    "NETWORK",
+    "SERVER",
+    "WEBSITE",
+    "PYTHON",
+    "ANDROID",
+    "WINDOWS",
+    "CRICKET",
+    "FOOTBALL",
+    "ELEPHANT",
+    "TIGER",
+    "COLLEGE"
+];
+
 let selectedWord = "";
 let guessedLetters = [];
 let lives = 6;
@@ -23,11 +51,7 @@ function displayWord() {
     for (let letter of selectedWord) {
 
         if (
-            letter === "A" ||
-            letter === "E" ||
-            letter === "I" ||
-            letter === "O" ||
-            letter === "U" ||
+            "AEIOU".includes(letter) ||
             guessedLetters.includes(letter)
         ) {
             display += letter + " ";
@@ -38,24 +62,27 @@ function displayWord() {
 
     document.getElementById("word").innerText = display;
 
-    let hiddenLeft = false;
+    let won = true;
 
     for (let letter of selectedWord) {
         if (
             !"AEIOU".includes(letter) &&
             !guessedLetters.includes(letter)
         ) {
-            hiddenLeft = true;
+            won = false;
             break;
         }
     }
 
-    if (!hiddenLeft) {
-        document.getElementById("message").innerText = "You Win!";
+    if (won) {
+        document.getElementById("message").innerText =
+            "🎉 You Win!";
     }
 }
 
 function checkLetter() {
+
+    if (lives <= 0) return;
 
     let input = document.getElementById("guess");
 
@@ -63,9 +90,7 @@ function checkLetter() {
 
     input.value = "";
 
-    if (letter === "") {
-        return;
-    }
+    if (letter === "") return;
 
     if (selectedWord.includes(letter)) {
 
@@ -82,8 +107,12 @@ function checkLetter() {
     displayWord();
 
     if (lives <= 0) {
+
         document.getElementById("message").innerText =
-            "Game Over! Word was " + selectedWord;
+            "💀 Game Over! Word was " + selectedWord;
+
+        document.getElementById("word").innerText =
+            selectedWord;
     }
 }
 
